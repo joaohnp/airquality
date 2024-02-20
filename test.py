@@ -32,18 +32,16 @@ for file_name in all_filesPM10:
 
 
 # Read CSV with detected encoding
-#%%
+#   %%
 toplot = year_dict["2022"]["NL49012"]
-cleaned = toplot.interpolate(method='linear')
+cleaned = toplot.fillna(method='ffill')
 cleaned2 = pd.to_numeric(cleaned)
 plt.plot(cleaned2)
 # %% Train/test
 train_size = int(len(cleaned2)*0.8)
 train, test = cleaned2[:train_size], cleaned2[train_size:]
-#%%
 
-
-import numpy as np
+#   %%
 
 
 def create_features(data, lag=1):
@@ -56,11 +54,13 @@ def create_features(data, lag=1):
     return np.array(X), np.array(y)
 
 
-
-
-lag = 24  # For example, use the last 24 hours to predict the next hour
+lag = 12  # For example, use the last 24 hours to predict the next hour
 X_train, y_train = create_features(train, lag)
 X_test, y_test = create_features(test, lag)
+
+nan_in_y_train = np.isnan(y_train).sum()
+nan_in_y_test = np.isnan(y_test).sum()
+
 #%%
 import numpy as np
 import xgboost as xgb
@@ -72,7 +72,27 @@ model = xgb.XGBRegressor(objective ='reg:squarederror', n_estimators=1000, learn
 # Fit the model
 model.fit(X_train, y_train)
 
-# %%
-# %%
-# %%
+# Making predictions
+y_pred = model.predict(X_test)
+
+# Calculating RMSE
+rmse = np.sqrt(mean_squared_error(y_test, y_pred))
+print("RMSE: %f" % (rmse))
+#%%
+dtrain = xgb.DMatrix(X_train, label=y_train)
+params = {"objective": "reg:squarederror", 'learning_rate': 0.1, 'max_depth': 5, 'n_estimators': 500}
+
+cv_results = xgb.cv(dtrain=dtrain, params=params, nfold=3,
+                    num_boost_round=50, early_stopping_rounds=10,
+                    metrics="rmse", as_pandas=True, seed=123)
+#%%
+import matplotlib.pyplot as plt
+
+# Assuming y_test are your actual values and y_pred are your model's predictions
+plt.figure(figsize=(10, 6))  # Set the figure size for better readability
+plt.plot(y_test, label='Actual', color='blue', alpha=0.2)  # Plot actual values
+plt.plot(y_pred, label='Predicted', color='red', linestyle='--') # Plot predicted values
+plt.title('Comparison of Actual and Predicted Values')
+plt.xlabel('Sample Index')  # Adjust as appropriate (e
+
 # %%
