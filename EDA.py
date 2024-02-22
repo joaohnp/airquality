@@ -189,4 +189,22 @@ plt.ylabel('Observation Value')
 plt.legend()
 plt.show()
 
+# %% Trying pycaret
+import pycaret
+from pycaret.time_series import *
+
+#%%
+data = cleaned2[8000:-1]
+data.plot()
+s = setup(data, fh = 12, session_id = 123)
+check_stats()
+#%%
+best = compare_models()
+# %%
+plot_model(best, plot = 'forecast', data_kwargs = {'fh' : 36})
+plot_model(best, plot = 'residuals')
+#%%
+holdout_pred = predict_model(best)
+holdout_pred.head()
+
 # %%
