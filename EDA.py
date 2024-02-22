@@ -88,38 +88,6 @@ plt.plot(y_pred, label='Predicted', color='red', linestyle='--',alpha=0.7) # Plo
 plt.title('Comparison of Actual and Predicted Values')
 plt.xlabel('Sample Index')  # Adjust as appropriate (e
 
-from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
-
-# %% Trying the same thing, but for ARIMA
-from statsmodels.tsa.arima.model import ARIMA
-from statsmodels.tsa.stattools import adfuller
-
-result = adfuller(train)
-print('ADF Statistic: %f' % result[0])
-print('p-value: %f' % result[1])
-# Since the data is confidently stationary, d =0
-plot_acf(train)
-plot_pacf(train)
-plt.show()
-
-
-
-
-
-
-
-
-# Assume `data` is your time series data and is stationary
-model = ARIMA(test)
-model_fit = model.fit()
-
-# Forecast
-forecast = model_fit.forecast(steps=24, order=(40, 0, 5))  # Forecasting next 5 steps for example
-plt.plot(forecast)
-model_fit.plot_diagnostics(figsize=(10, 8))
-plt.show()
-
-
 
 # %%
 
@@ -194,10 +162,10 @@ import pycaret
 from pycaret.time_series import *
 
 #%%
-data = cleaned2[8000:-1]
+time_before = len(cleaned2)-720
+data = cleaned2[time_before:-1]
 data.plot()
-s = setup(data, fh = 12, session_id = 123)
-check_stats()
+s = setup(data, fh = 24, session_id = 123)
 #%%
 best = compare_models()
 # %%
