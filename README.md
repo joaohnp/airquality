@@ -45,7 +45,7 @@ Mine the data
   cd ..
   python mining.py
 ```
-Check one of the models solutions:
+Check one of the solutions:
 
 ```bash
   cd prediction_scripts
@@ -69,5 +69,4 @@ Check one of the models solutions:
 
 ## Support
 
-For support, email joaohnp@gmail.com or join our Slack channel.
-
+For support, email joaohnp@gmail.com
