@@ -1,6 +1,8 @@
 """Module to read the csv files and populate the database
 """
 #%%
+import os
+
 import pandas as pd
 from sqlalchemy import (
     Column,
@@ -57,10 +59,8 @@ class Measurement(Base):
     # Relationship to Location
     location = relationship("Location", back_populates="measurements")
 
-# %% Now, reading the csv files 
-import os
+# %% Now, reading the csv files
 
-#   %% had to detect encoding - pandas threw errors. 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 src_PM10 = os.path.join(dir_path, 'src', 'PM10')
 all_filesPM10 = os.listdir(src_PM10)
@@ -92,7 +92,6 @@ for city in CITY_OF_INTEREST:
             year_dict[city][year] = year_dict[city][year].ffill()
 #%% Inserting in the database
 # Path to your Excel file(s)
-
 cities = year_dict.keys()
 for city in cities:
     years = year_dict[city].keys()
@@ -128,6 +127,8 @@ for city in cities:
             
             # Commit once per file or per batch of rows to optimize
             session.commit()
-    
+# After all database operations are done
+session.close()
+   
 
 # %%
