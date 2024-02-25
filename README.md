@@ -1,9 +1,73 @@
-https://data.rivm.nl/data/luchtmeetnet/Vastgesteld-jaar/2013/
 
-docker run --name airquality -e POSTGRES_USER=master -e POSTGRES_PASSWORD=amsterdam -e POSTGRES_DB=mydatabase -p 5432:5432 -d postgres
+# Predicting air quality
 
-https://drawsql.app/teams/teste-124/diagrams/airquality
+Simple tool to showcase end-to-end data science. 
 
-Predicting air quality in Amsterdam
+Here the goal is to get stablished data, build a postgres server with it and use such data to predict air quality in the next hour, by using different popular machine/deep learning solutions: XGBoost, RNN and CNN. 
 
-This project is a showcase of a machine learning problem/pipeline. Here we'll go from creating a postgres server using docker, populating and reading into our 3 selected models (xgboost, rnn, cnn). After that, we'll run pycaret to test which model is the best
+We'll be using data collected by the dutch government on air quality; specifically PM10 particles. 
+
+Here is where we got our dataset: https://data.rivm.nl/data/luchtmeetnet/Vastgesteld-jaar/
+
+This is the schema designed for the SQL database: https://drawsql.app/teams/teste-124/diagrams/airquality
+
+
+## Run Locally
+
+Clone the project
+
+```bash
+  git clone https://github.com/joaohnp/airquality/
+```
+
+Go to the project directory
+
+```bash
+  cd my-project
+```
+
+Install dependencies
+
+```bash
+  pip install -r requeriments.txt
+```
+
+Start the postgres server
+
+```bash
+  cd docker
+  docker compose up
+```
+
+Mine the data
+
+```bash
+  cd ..
+  python mining.py
+```
+Check one of the models solutions:
+
+```bash
+  cd prediction_scripts
+  python XGBoost.py
+```
+
+
+## Tech Stack
+
+**Data storage and management:** PostgresSQL, Docker
+
+**Data preparation and analysis:** pandas, SQLalchemy
+
+**Machine Learning and Deep Learning:** Keras, TensorFlow, XGBoost
+
+
+## Authors
+
+- [@joaohnp](https://www.github.com/joaohnp)
+
+
+## Support
+
+For support, email joaohnp@gmail.com or join our Slack channel.
+
