@@ -23,7 +23,7 @@ dataset = df_measurements["Measurement"]
 # %% Train/test
 train_size = int(len(dataset)*0.8)
 train, test = dataset[:train_size], dataset[train_size:]
-LAG = 12  
+LAG = 12
 X_train, y_train = create_features(train, LAG)
 X_test, y_test = create_features(test, LAG)
 
