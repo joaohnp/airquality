@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: master
+      POSTGRES_PASSWORD: amsterdam
+      POSTGRES_DB: airquality
+    ports:
+      - "5432:5432"
+    volumes:
+      - airdata:/var/lib/postgresql/data
+      - ./init-db:/docker-entrypoint-initdb.d
+
+volumes:
+  airdata:
