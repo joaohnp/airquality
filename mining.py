@@ -62,7 +62,7 @@ class Measurement(Base):
 # %% Now, reading the csv files
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
-src_PM10 = os.path.join(dir_path, 'src', 'PM10')
+src_PM10 = os.path.join(dir_path, 'datasets', 'PM10')
 all_filesPM10 = os.listdir(src_PM10)
 CITY_OF_INTEREST = ["Amsterdam", "Rotterdam"]
 # Creating an empty dictionary with keys as the year of interest
