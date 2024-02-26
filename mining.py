@@ -124,11 +124,8 @@ for city in cities:
                     measurement=measurement_value
                 )
                 session.add(measurement)
-            
+
             # Commit once per file or per batch of rows to optimize
             session.commit()
 # After all database operations are done
 session.close()
-   
-
-# %%

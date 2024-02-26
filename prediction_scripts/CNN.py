@@ -13,7 +13,8 @@ DATABASE_URI = 'postgresql+psycopg2://master:amsterdam@localhost:5432/airquality
 query = querying_sql(DATABASE_URI, 2019, 3)
 data = []
 for record in query:
-    timestamp = pd.Timestamp(year=record.year, month=record.month, day=record.day, hour=record.hour)
+    timestamp = pd.Timestamp(year=record.year, month=record.month,
+                             day=record.day, hour=record.hour)
     data.append({'Timestamp': timestamp, 'Measurement': record.measurement})
 
 df_measurements = pd.DataFrame(data)
